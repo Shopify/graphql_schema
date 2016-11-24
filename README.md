@@ -1,4 +1,4 @@
-# GraphqlSchema
+# GraphQL Schema
 
 Classes to more conveniently access the GraphQL instrospection
 result rather than using the parsed json directly as a hash.
