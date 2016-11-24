@@ -1,7 +1,10 @@
 # Contributing
 
-Issues, bug fixes and documentation for existing features are always
-welcome.
+Types of contributions we welcome:
+
+* Opening issue for bugs
+* Bug fixes
+* Documentation and/or clearer interfaces
 
 ## Proposing Features
 
