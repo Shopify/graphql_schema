@@ -67,7 +67,7 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_input_fields
-    assert_equal %w(key value ttl), type('SetIntegerInput').input_fields.map(&:name)
+    assert_equal %w(key value ttl negate), type('SetIntegerInput').input_fields.map(&:name)
   end
 
   def test_required_input_fields
@@ -75,7 +75,12 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_optional_input_fields
-    assert_equal %w(ttl), type('SetIntegerInput').optional_input_fields.map(&:name)
+    assert_equal %w(ttl negate), type('SetIntegerInput').optional_input_fields.map(&:name)
+  end
+
+  def test_default_value_input_fields
+    assert_equal "false", input_field('SetIntegerInput', 'negate').default_value
+    assert_equal nil, input_field('SetIntegerInput', 'ttl').default_value
   end
 
   def test_args
@@ -88,6 +93,11 @@ class GraphQLSchemaTest < Minitest::Test
 
   def test_optional_args
     assert_equal %w(after), field('QueryRoot', 'keys').optional_args.map(&:name)
+  end
+
+  def test_default_args
+    assert_equal "\"I am default\"", arg('Mutation', 'set_string_with_default', 'value').default_value
+    assert_equal nil, arg('Mutation', 'set_string_with_default', 'key').default_value
   end
 
   def test_possible_types
@@ -114,6 +124,14 @@ class GraphQLSchemaTest < Minitest::Test
     type(type_name).fields(include_deprecated: true).find { |field| field.name == field_name }
   end
 
+  def input_field(type_name, field_name)
+    type(type_name).input_fields().find { |field| field.name == field_name }
+  end
+
+  def arg(type_name, field_name, arg_name)
+    field(type_name, field_name).args.find { |arg| arg.name == arg_name }
+  end
+  
   def enum_value(type_name, value_name)
     type(type_name).enum_values(include_deprecated: true).find { |value| value.name == value_name }
   end

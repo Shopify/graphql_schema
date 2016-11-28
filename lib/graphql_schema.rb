@@ -60,7 +60,7 @@ class GraphQLSchema
     end
   end
 
-  class Argument
+  class InputValue
     include NamedHash
 
     def initialize(arg_hash)
@@ -69,6 +69,10 @@ class GraphQLSchema
 
     def type
       @type ||= TypeDeclaration.new(@hash.fetch('type'))
+    end
+
+    def default_value
+      @default_value ||= @hash.fetch('defaultValue')
     end
   end
 
@@ -81,7 +85,7 @@ class GraphQLSchema
     end
 
     def args
-      @args ||= @hash.fetch('args').map{ |arg_hash| Argument.new(arg_hash) }
+      @args ||= @hash.fetch('args').map{ |arg_hash| InputValue.new(arg_hash) }
     end
 
     def required_args
@@ -191,7 +195,7 @@ class GraphQLSchema
     end
 
     def input_fields
-      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| Field.new(field_hash) }
+      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputValue.new(field_hash) }
     end
 
     def required_input_fields
