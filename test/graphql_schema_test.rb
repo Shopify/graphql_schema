@@ -79,8 +79,8 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_default_value_input_fields
-    assert_equal "false", input_field('SetIntegerInput', 'negate').defaultValue
-    assert_equal nil, input_field('SetIntegerInput', 'ttl').defaultValue
+    assert_equal "false", input_field('SetIntegerInput', 'negate').default_value
+    assert_equal nil, input_field('SetIntegerInput', 'ttl').default_value
   end
 
   def test_args
@@ -96,8 +96,8 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_default_args
-    assert_equal "\"I am default\"", arg('Mutation', 'set_string_with_default', 'value').defaultValue
-    assert_equal nil, arg('Mutation', 'set_string_with_default', 'key').defaultValue
+    assert_equal "\"I am default\"", arg('Mutation', 'set_string_with_default', 'value').default_value
+    assert_equal nil, arg('Mutation', 'set_string_with_default', 'key').default_value
   end
 
   def test_possible_types

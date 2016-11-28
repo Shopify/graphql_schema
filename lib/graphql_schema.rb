@@ -71,7 +71,7 @@ class GraphQLSchema
       @type ||= TypeDeclaration.new(@hash.fetch('type'))
     end
 
-    def defaultValue
+    def default_value
       @defaultValue ||= @hash.fetch('defaultValue')
     end
   end
@@ -106,7 +106,7 @@ class GraphQLSchema
   end
 
   class InputField < Field
-    def defaultValue
+    def default_value
       @defaultValue ||= @hash.fetch('defaultValue')
     end
   end
