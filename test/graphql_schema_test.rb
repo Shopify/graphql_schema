@@ -90,6 +90,11 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal %w(after), field('QueryRoot', 'keys').optional_args.map(&:name)
   end
 
+  def test_default_arg
+    assert_equal "\"I am default\"", arg('Mutation', 'set_string_with_default', 'value').defaultValue
+    assert_equal nil, arg('Mutation', 'set_string_with_default', 'key').defaultValue
+  end
+
   def test_possible_types
     assert_equal %w(StringEntry IntegerEntry).sort, type('Entry').possible_types.map(&:name)
   end
@@ -112,6 +117,10 @@ class GraphQLSchemaTest < Minitest::Test
 
   def field(type_name, field_name)
     type(type_name).fields(include_deprecated: true).find { |field| field.name == field_name }
+  end
+
+  def arg(type_name, field_name, arg_name)
+    field(type_name, field_name).args.find { |arg| arg.name == arg_name }
   end
 
   def enum_value(type_name, value_name)

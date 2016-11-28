@@ -70,6 +70,10 @@ class GraphQLSchema
     def type
       @type ||= TypeDeclaration.new(@hash.fetch('type'))
     end
+
+    def defaultValue
+      @defaultValue ||= @hash.fetch('defaultValue')
+    end
   end
 
   class Field

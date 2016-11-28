@@ -88,6 +88,10 @@ module Support
         argument :key, !types.String
         argument :value, !types.String
       end
+      field :set_string_with_default, !types.Boolean do
+        argument :key, !types.String
+        argument :value, types.String, default_value: "I am default"
+      end
       field :set_integer, !types.Boolean do
         argument :input, !SetIntegerInput
       end
