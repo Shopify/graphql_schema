@@ -75,6 +75,7 @@ module Support
       argument :key, !types.String
       argument :value, !types.Int
       argument :ttl, TimeType
+      argument :negate, types.Boolean, default_value: false
     end
 
     MutationType = GraphQL::ObjectType.define do

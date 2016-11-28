@@ -105,6 +105,12 @@ class GraphQLSchema
     end
   end
 
+  class InputField < Field
+    def defaultValue
+      @defaultValue ||= @hash.fetch('defaultValue')
+    end
+  end
+
   class EnumValue
     include NamedHash
     include Deprecatable
@@ -195,7 +201,7 @@ class GraphQLSchema
     end
 
     def input_fields
-      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| Field.new(field_hash) }
+      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputField.new(field_hash) }
     end
 
     def required_input_fields
