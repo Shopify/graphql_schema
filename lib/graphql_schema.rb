@@ -60,7 +60,7 @@ class GraphQLSchema
     end
   end
 
-  class Argument
+  class InputValue
     include NamedHash
 
     def initialize(arg_hash)
@@ -72,7 +72,7 @@ class GraphQLSchema
     end
 
     def default_value
-      @defaultValue ||= @hash.fetch('defaultValue')
+      @default_value ||= @hash.fetch('defaultValue')
     end
   end
 
@@ -85,7 +85,7 @@ class GraphQLSchema
     end
 
     def args
-      @args ||= @hash.fetch('args').map{ |arg_hash| Argument.new(arg_hash) }
+      @args ||= @hash.fetch('args').map{ |arg_hash| InputValue.new(arg_hash) }
     end
 
     def required_args
@@ -102,12 +102,6 @@ class GraphQLSchema
 
     def subfields?
       type.subfields?
-    end
-  end
-
-  class InputField < Field
-    def default_value
-      @defaultValue ||= @hash.fetch('defaultValue')
     end
   end
 
@@ -201,7 +195,7 @@ class GraphQLSchema
     end
 
     def input_fields
-      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputField.new(field_hash) }
+      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputValue.new(field_hash) }
     end
 
     def required_input_fields
