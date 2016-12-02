@@ -105,8 +105,14 @@ module Support
       resolve_type ->(obj, ctx) {}
     end
 
-    def self.introspection_result
-      GraphQL::Query.new(ExampleSchema, GraphQL::Introspection::INTROSPECTION_QUERY).result
+    NoMutationSchema = GraphQL::Schema.define do
+      query QueryType
+      orphan_types [StringEntryType, IntegerEntryType]
+      resolve_type ->(obj, ctx) {}
+    end
+
+    def self.introspection_result(schema = ExampleSchema)
+      GraphQL::Query.new(schema, GraphQL::Introspection::INTROSPECTION_QUERY).result
     end
   end
 end
