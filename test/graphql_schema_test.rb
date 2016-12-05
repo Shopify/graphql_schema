@@ -20,6 +20,11 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal ['Mutation', 'QueryRoot'], @schema.types.select { |type| @schema.root_name?(type.name) }.map(&:name)
   end
 
+  def test_no_mutation_root
+    schema = GraphQLSchema.new(Support::Schema.introspection_result(Support::Schema::NoMutationSchema))
+    assert_equal nil, schema.mutation_root_name
+  end
+
   def test_camelize_name
     assert_equal 'queryRoot', query_root.camelize_name
     assert_equal 'getString', get_string_field.camelize_name

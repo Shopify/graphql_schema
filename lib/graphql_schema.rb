@@ -15,7 +15,9 @@ class GraphQLSchema
   end
 
   def mutation_root_name
-    @mutation_root_name ||= @hash.fetch('mutationType', {}).fetch('name')
+    if mutation_type = @hash.fetch('mutationType')
+      mutation_type.fetch('name')
+    end
   end
 
   def types
