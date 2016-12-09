@@ -145,6 +145,10 @@ class GraphQLSchema
       kind == 'INTERFACE'
     end
 
+    def enum?
+      kind == 'ENUM'
+    end
+
     def union?
       kind == 'UNION'
     end
