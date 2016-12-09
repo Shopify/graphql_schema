@@ -119,6 +119,11 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal false, type('QueryRoot').implement?('Entry')
   end
 
+  def test_enum?
+    assert_equal true, field('QueryRoot', 'type').type.enum?
+    assert_equal false, field('QueryRoot', 'keys').type.enum?
+  end
+
   private
 
   def type(name)
