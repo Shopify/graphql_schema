@@ -25,7 +25,8 @@ class GraphQLSchema
   end
 
   def type_from_name(type_name)
-    @types.find { |type| type.name == type_name }
+    @types_by_name ||= types.map { |type| [type.name, type] }.to_h
+    @types_by_name[type_name]
   end
 
   module NamedHash
