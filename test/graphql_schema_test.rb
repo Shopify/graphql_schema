@@ -128,6 +128,11 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal false, field('QueryRoot', 'keys').type.enum?
   end
 
+  def test_field_from_name?
+    assert_equal get_string_field, type('QueryRoot').field_from_name('get_string')
+    assert_equal nil, type('QueryRoot').field_from_name('does_not_exist')
+  end
+
   def test_description
     assert_equal 'Time since epoch in seconds', type('Time').description
     assert_nil type('StringEntry').description
