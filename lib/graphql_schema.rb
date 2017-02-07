@@ -45,6 +45,10 @@ class GraphQLSchema
       @upcase_name ||= split_name.join("_").upcase
     end
 
+    def description
+      @hash.fetch('description')
+    end
+
     private
 
     def split_name
