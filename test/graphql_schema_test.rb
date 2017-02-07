@@ -72,7 +72,7 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_input_fields
-    assert_equal %w(key value ttl negate), type('SetIntegerInput').input_fields.map(&:name)
+    assert_equal %w(key negate ttl value), type('SetIntegerInput').input_fields.map(&:name)
   end
 
   def test_required_input_fields
@@ -80,7 +80,7 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_optional_input_fields
-    assert_equal %w(ttl negate), type('SetIntegerInput').optional_input_fields.map(&:name)
+    assert_equal %w(negate ttl), type('SetIntegerInput').optional_input_fields.map(&:name)
   end
 
   def test_default_value_input_fields
