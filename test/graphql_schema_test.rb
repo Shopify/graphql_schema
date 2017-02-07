@@ -124,6 +124,14 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal false, field('QueryRoot', 'keys').type.enum?
   end
 
+  def test_description
+    assert_equal 'Time since epoch in seconds', type('Time').description
+    assert_nil type('StringEntry').description
+    assert_nil type('KeyType').enum_values.first.description
+    assert_nil input_field('SetIntegerInput', 'negate').description
+    assert_equal 'Get an entry of any type with the given key', field('QueryRoot', 'get_entry').description
+  end
+
   private
 
   def type(name)
@@ -141,7 +149,7 @@ class GraphQLSchemaTest < Minitest::Test
   def arg(type_name, field_name, arg_name)
     field(type_name, field_name).args.find { |arg| arg.name == arg_name }
   end
-  
+
   def enum_value(type_name, value_name)
     type(type_name).enum_values(include_deprecated: true).find { |value| value.name == value_name }
   end
