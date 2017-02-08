@@ -49,6 +49,10 @@ class GraphQLSchema
       @hash.fetch('description')
     end
 
+    def to_h
+      @hash
+    end
+
     private
 
     def split_name
