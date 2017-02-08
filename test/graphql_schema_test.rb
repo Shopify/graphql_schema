@@ -132,6 +132,33 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal 'Get an entry of any type with the given key', field('QueryRoot', 'get_entry').description
   end
 
+  def test_to_h
+    assert_equal({
+      'kind' => 'SCALAR',
+      'name' => 'Time',
+      'description' => 'Time since epoch in seconds',
+      'fields' => nil,
+      'inputFields' => nil,
+      'interfaces' => nil,
+      'enumValues' => nil,
+      'possibleTypes' => nil
+    }, type('Time').to_h)
+
+    assert_equal({
+      'name' => 'negate',
+      'description' => nil,
+      'type' => {'kind' => 'SCALAR', 'name' => 'Boolean', 'ofType' => nil },
+      'defaultValue' => 'false'
+    }, input_field('SetIntegerInput', 'negate').to_h)
+
+    assert_equal({
+      'name' => 'INTEGER',
+      'description' => nil,
+      'isDeprecated' => false,
+      'deprecationReason' => nil
+    }, type('KeyType').enum_values.first.to_h)
+  end
+
   private
 
   def type(name)
