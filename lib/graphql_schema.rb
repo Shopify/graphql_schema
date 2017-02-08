@@ -205,7 +205,7 @@ class GraphQLSchema
     end
 
     def input_fields
-      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputValue.new(field_hash) }
+      @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputValue.new(field_hash) }.sort_by(&:name)
     end
 
     def required_input_fields
