@@ -43,6 +43,10 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal 'NOT_FOUND', not_found_value.upcase_name
   end
 
+  def test_nil_fields
+    assert_nil type('KeyType').fields
+  end
+
   def test_deprecated_fields
     deprecated = query_root.fields(include_deprecated: true) - query_root.fields
     assert_equal %w(get), deprecated.map(&:name)

@@ -204,6 +204,7 @@ class GraphQLSchema
 
   class TypeDefinition < Type
     def fields(include_deprecated: false)
+      return unless @hash.fetch('fields')
       @fields ||= @hash.fetch('fields').map{ |field_hash| Field.new(field_hash) }
       include_deprecated ? @fields : @fields.reject(&:deprecated?)
     end
