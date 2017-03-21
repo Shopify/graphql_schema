@@ -134,6 +134,11 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal nil, type('QueryRoot').fields_by_name['does_not_exist']
   end
 
+  def test_type_by_name
+    assert_equal type('SetIntegerInput'), @schema.types_by_name['SetIntegerInput']
+    assert_equal nil, @schema.types_by_name['IDoNotExist']
+  end
+
   def test_description
     assert_equal 'Time since epoch in seconds', type('Time').description
     assert_nil type('StringEntry').description

@@ -24,6 +24,10 @@ class GraphQLSchema
     @types ||= @hash.fetch('types').map{ |type_hash| TypeDefinition.new(type_hash) }.sort_by(&:name)
   end
 
+  def types_by_name
+    @types_by_name ||= types.map { |type| [type.name, type] }.to_h
+  end
+
   module NamedHash
     def name
       @hash.fetch('name')
