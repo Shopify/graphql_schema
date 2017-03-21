@@ -2,6 +2,24 @@ require "graphql_schema/version"
 require 'set'
 
 class GraphQLSchema
+  INVALID_SCHEMA = Class.new(StandardError)
+
+  class << self
+    def load_schema(schema)
+      case schema
+      when Hash
+        new(schema)
+      when GraphQLSchema
+        schema
+      when Pathname, String
+        schema = File.read(schema) if Pathname(schema).file?
+        new(JSON.parse(schema))
+      else
+        raise INVALID_SCHEMA
+      end
+    end
+  end
+
   def initialize(instrospection_result)
     @hash = instrospection_result.fetch('data').fetch('__schema')
   end

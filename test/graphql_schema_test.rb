@@ -5,6 +5,42 @@ class GraphQLSchemaTest < Minitest::Test
     @schema = GraphQLSchema.new(Support::Schema.introspection_result)
   end
 
+  def test_load_instantiates_a_schema_from_a_hash
+    schema = GraphQLSchema.load_schema(Support::Schema.introspection_result)
+
+    assert_instance_of GraphQLSchema, schema
+  end
+
+  def test_load_instantiates_a_schema_from_a_json_string
+    schema = GraphQLSchema.load_schema(Support::Schema.introspection_result.to_json)
+
+    assert_instance_of GraphQLSchema, schema
+  end
+
+  def test_load_instantiates_a_schema_from_a_filepath
+    Tempfile.open('schema.json') do |f|
+      f.write(Support::Schema.introspection_result.to_json)
+      schema = GraphQLSchema.load_schema(f.path)
+
+      assert_instance_of GraphQLSchema, schema
+    end
+  end
+
+  def test_load_instantiates_a_schema_from_a_pathname
+    Tempfile.open('schema.json') do |f|
+      f.write(Support::Schema.introspection_result.to_json)
+      schema = GraphQLSchema.load_schema(Pathname.new(f.path))
+
+      assert_instance_of GraphQLSchema, schema
+    end
+  end
+
+  def test_load_returns_schema_if_its_a_schema_instance
+    new_schema = GraphQLSchema.load_schema(@schema)
+
+    assert_equal new_schema, @schema
+  end
+
   def test_that_it_has_a_version_number
     refute_nil ::GraphQLSchema::VERSION
   end
