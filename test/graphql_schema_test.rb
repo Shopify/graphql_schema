@@ -134,11 +134,6 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal nil, type('QueryRoot').fields_by_name['does_not_exist']
   end
 
-  def test_type_from_name
-    assert_equal type('SetIntegerInput'), @schema.type_from_name('SetIntegerInput')
-    assert_equal nil, @schema.type_from_name('IDoNotExist')
-  end
-
   def test_type_by_name
     assert_equal type('SetIntegerInput'), @schema.types_by_name['SetIntegerInput']
     assert_equal nil, @schema.types_by_name['IDoNotExist']
