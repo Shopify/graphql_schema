@@ -209,6 +209,10 @@ class GraphQLSchema
       include_deprecated ? @fields : @fields.reject(&:deprecated?)
     end
 
+    def fields_by_name
+      @fields_by_name ||= fields(include_deprecated: true).map{ |field| [field.name, field]}.to_h
+    end
+
     def input_fields
       @input_fields ||= @hash.fetch('inputFields').map{ |field_hash| InputValue.new(field_hash) }
     end
