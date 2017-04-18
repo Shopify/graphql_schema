@@ -22,7 +22,7 @@ class GraphQLSchemaTest < Minitest::Test
 
   def test_no_mutation_root
     schema = GraphQLSchema.new(Support::Schema.introspection_result(Support::Schema::NoMutationSchema))
-    assert_equal nil, schema.mutation_root_name
+    assert_nil schema.mutation_root_name
   end
 
   def test_camelize_name
@@ -89,7 +89,7 @@ class GraphQLSchemaTest < Minitest::Test
 
   def test_default_value_input_fields
     assert_equal "false", input_field('SetIntegerInput', 'negate').default_value
-    assert_equal nil, input_field('SetIntegerInput', 'ttl').default_value
+    assert_nil input_field('SetIntegerInput', 'ttl').default_value
   end
 
   def test_args
@@ -106,7 +106,7 @@ class GraphQLSchemaTest < Minitest::Test
 
   def test_default_args
     assert_equal "\"I am default\"", arg('Mutation', 'set_string_with_default', 'value').default_value
-    assert_equal nil, arg('Mutation', 'set_string_with_default', 'key').default_value
+    assert_nil arg('Mutation', 'set_string_with_default', 'key').default_value
   end
 
   def test_possible_types
@@ -131,12 +131,12 @@ class GraphQLSchemaTest < Minitest::Test
   def test_fields_by_name
     assert_equal get_string_field, type('QueryRoot').fields_by_name['get_string']
     assert_equal get_field, type('QueryRoot').fields_by_name['get']
-    assert_equal nil, type('QueryRoot').fields_by_name['does_not_exist']
+    assert_nil type('QueryRoot').fields_by_name['does_not_exist']
   end
 
   def test_type_by_name
     assert_equal type('SetIntegerInput'), @schema.types_by_name['SetIntegerInput']
-    assert_equal nil, @schema.types_by_name['IDoNotExist']
+    assert_nil @schema.types_by_name['IDoNotExist']
   end
 
   def test_description
