@@ -179,6 +179,10 @@ class GraphQLSchema
       @of_type ||= TypeDeclaration.new(@hash.fetch('ofType'))
     end
 
+    def list?
+      kind == 'LIST'
+    end
+
     def non_null?
       kind == 'NON_NULL'
     end
@@ -190,6 +194,10 @@ class GraphQLSchema
       else
         self
       end
+    end
+
+    def unwrap_list
+      list? ? of_type.unwrap_list : self
     end
 
     def unwrap_non_null

@@ -66,6 +66,16 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal 'String', keys_field.type.of_type.of_type.of_type.name
   end
 
+  def test_non_null?
+    assert_equal true, keys_field.type.non_null?
+    assert_equal false, keys_field.type.unwrap.non_null?
+  end
+
+  def test_list?
+    assert_equal true, keys_field.type.unwrap_non_null.list?
+    assert_equal false, keys_field.type.unwrap_non_null.unwrap_list.list?
+  end
+
   def test_unwrap
     assert_equal 'String', keys_field.type.unwrap.name
   end
@@ -73,6 +83,11 @@ class GraphQLSchemaTest < Minitest::Test
   def test_unwrap_non_null
     assert_equal 'LIST', keys_field.type.unwrap_non_null.kind
     assert_equal 'String', keys_field.type.unwrap_non_null.unwrap.name
+  end
+
+  def test_unwrap_list
+    assert_equal 'NON_NULL', keys_field.type.unwrap_list.kind
+    assert_equal 'String', keys_field.type.unwrap_list.unwrap.name
   end
 
   def test_input_fields
