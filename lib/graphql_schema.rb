@@ -20,12 +20,24 @@ class GraphQLSchema
     end
   end
 
+  def directives
+    @directives ||= @hash.fetch('directives').map do |directive|
+      Directive.new(directive)
+    end.sort_by(&:name)
+  end
+
   def types
     @types ||= @hash.fetch('types').map{ |type_hash| TypeDefinition.new(type_hash) }.sort_by(&:name)
   end
 
   def types_by_name
     @types_by_name ||= types.map { |type| [type.name, type] }.to_h
+  end
+
+  module WithArgs
+    def args
+      @args ||= @hash.fetch('args').map{ |arg_hash| InputValue.new(arg_hash) }
+    end
   end
 
   module NamedHash
@@ -93,13 +105,10 @@ class GraphQLSchema
   class Field
     include NamedHash
     include Deprecatable
+    include WithArgs
 
     def initialize(field_hash)
       @hash = field_hash
-    end
-
-    def args
-      @args ||= @hash.fetch('args').map{ |arg_hash| InputValue.new(arg_hash) }
     end
 
     def required_args
@@ -211,6 +220,19 @@ class GraphQLSchema
       else
         false
       end
+    end
+  end
+
+  class Directive
+    include NamedHash
+    include WithArgs
+
+    def initialize(directive)
+      @hash = directive
+    end
+
+    def locations
+      @hash.fetch('locations')
     end
   end
 
