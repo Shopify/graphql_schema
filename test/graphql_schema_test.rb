@@ -169,6 +169,9 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal ["FIELD"], example_directive.locations
     refute example_directive.builtin?
     assert directive("skip").builtin?
+    assert directive("include").builtin?
+    assert directive("deprecated").builtin?
+    assert_equal 4, @schema.directives.length
   end
 
   def test_to_h
