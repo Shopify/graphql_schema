@@ -227,12 +227,18 @@ class GraphQLSchema
     include NamedHash
     include WithArgs
 
+    BUILTIN = %w(skip include deprecated).to_set
+
     def initialize(directive)
       @hash = directive
     end
 
     def locations
       @hash.fetch('locations')
+    end
+
+    def builtin?
+      BUILTIN.include?(name)
     end
   end
 
