@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.bindir        = "exe"
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+  spec.metadata['allowed_push_host'] = "https://rubygems.org"
 
   spec.add_development_dependency "graphql", "~> 1.2"
   spec.add_development_dependency "byebug", '~> 9.0' if RUBY_ENGINE == 'ruby'
