@@ -162,6 +162,18 @@ class GraphQLSchemaTest < Minitest::Test
     assert_equal 'Get an entry of any type with the given key', field('QueryRoot', 'get_entry').description
   end
 
+  def test_directives
+    example_directive = directive("directiveExample")
+    assert_equal %w(input), example_directive.args.map(&:name)
+    assert_equal "A nice runtime customization", example_directive.description
+    assert_equal ["FIELD"], example_directive.locations
+    refute example_directive.builtin?
+    assert directive("skip").builtin?
+    assert directive("include").builtin?
+    assert directive("deprecated").builtin?
+    assert_equal 4, @schema.directives.length
+  end
+
   def test_to_h
     assert_equal({
       'kind' => 'SCALAR',
@@ -197,6 +209,12 @@ class GraphQLSchemaTest < Minitest::Test
 
   def field(type_name, field_name)
     type(type_name).fields(include_deprecated: true).find { |field| field.name == field_name }
+  end
+
+  def directive(directive_name)
+    @schema.directives.find do |dir|
+      dir.name == directive_name
+    end
   end
 
   def input_field(type_name, field_name)

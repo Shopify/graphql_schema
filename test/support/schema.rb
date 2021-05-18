@@ -98,9 +98,16 @@ module Support
       end
     end
 
+    class DirectiveExample < GraphQL::Schema::Directive
+      description "A nice runtime customization"
+      locations FIELD
+      argument :input, !SetIntegerInput, required: true
+    end
+
     ExampleSchema = GraphQL::Schema.define do
       query QueryType
       mutation MutationType
+      directive(DirectiveExample)
       orphan_types [StringEntryType, IntegerEntryType]
       resolve_type ->(obj, ctx) {}
     end
