@@ -102,6 +102,7 @@ module Support
       description "A nice runtime customization"
       locations FIELD
       argument :input, !SetIntegerInput, required: true
+      argument :enabled, Boolean, required: false
     end
 
     ExampleSchema = GraphQL::Schema.define do
