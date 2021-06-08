@@ -38,6 +38,14 @@ class GraphQLSchema
     def args
       @args ||= @hash.fetch('args').map{ |arg_hash| InputValue.new(arg_hash) }
     end
+
+    def required_args
+      @required_args ||= args.select{ |arg| arg.type.non_null? }
+    end
+
+    def optional_args
+      @optional_args ||= args.reject{ |arg| arg.type.non_null? }
+    end
   end
 
   module NamedHash
@@ -109,14 +117,6 @@ class GraphQLSchema
 
     def initialize(field_hash)
       @hash = field_hash
-    end
-
-    def required_args
-      @required_args ||= args.select{ |arg| arg.type.non_null? }
-    end
-
-    def optional_args
-      @optional_args ||= args.reject{ |arg| arg.type.non_null? }
     end
 
     def type

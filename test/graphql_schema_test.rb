@@ -164,7 +164,9 @@ class GraphQLSchemaTest < Minitest::Test
 
   def test_directives
     example_directive = directive("directiveExample")
-    assert_equal %w(input), example_directive.args.map(&:name)
+    assert_equal %w(input enabled), example_directive.args.map(&:name)
+    assert_equal %w(input), example_directive.required_args.map(&:name)
+    assert_equal %w(enabled), example_directive.optional_args.map(&:name)
     assert_equal "A nice runtime customization", example_directive.description
     assert_equal ["FIELD"], example_directive.locations
     refute example_directive.builtin?
