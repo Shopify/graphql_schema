@@ -9,6 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Dylan Thacker-Smith"]
   spec.email         = ["gems@shopify.com"]
 
+  spec.required_ruby_version = ">= 2.7"
+
   spec.summary       = "Classes for convenient use of GraphQL introspection result"
   spec.homepage      = "https://github.com/Shopify/graphql_schema"
   spec.license       = "MIT"
