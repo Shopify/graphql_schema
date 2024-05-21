@@ -227,7 +227,7 @@ class GraphQLSchema
     include NamedHash
     include WithArgs
 
-    BUILTIN = %w(skip include deprecated).to_set
+    BUILTIN = %w(skip include deprecated oneOf specifiedBy).to_set
 
     def initialize(directive)
       @hash = directive

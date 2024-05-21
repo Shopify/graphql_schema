@@ -7,21 +7,19 @@ GEM
   remote: https://rubygems.org/
   specs:
     base64 (0.2.0)
-    byebug (9.1.0)
-    graphql (1.13.23)
+    graphql (2.3.4)
       base64
     minitest (5.22.3)
-    rake (10.5.0)
+    rake (13.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  byebug (~> 9.0)
-  graphql (~> 1.2)
+  graphql (>= 2.0)
   graphql_schema!
   minitest (~> 5.0)
-  rake (~> 10.0)
+  rake (~> 13.0)
 
 BUNDLED WITH
    2.4.22
