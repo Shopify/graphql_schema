@@ -1,13 +1,12 @@
-# coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
-$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'graphql_schema/version'
+require_relative 'lib/graphql_schema/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "graphql_schema"
   spec.version       = GraphQLSchema::VERSION
   spec.authors       = ["Dylan Thacker-Smith"]
   spec.email         = ["gems@shopify.com"]
+
+  spec.required_ruby_version = ">= 2.7"
 
   spec.summary       = "Classes for convenient use of GraphQL introspection result"
   spec.homepage      = "https://github.com/Shopify/graphql_schema"
@@ -21,8 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.metadata['allowed_push_host'] = "https://rubygems.org"
 
-  spec.add_development_dependency "graphql", "~> 1.2"
-  spec.add_development_dependency "byebug", '~> 9.0' if RUBY_ENGINE == 'ruby'
-  spec.add_development_dependency "rake", "~> 10.0"
+  spec.add_development_dependency "graphql", ">= 2.0"
+  spec.add_development_dependency "rake", "~> 13.0"
   spec.add_development_dependency "minitest", "~> 5.0"
 end

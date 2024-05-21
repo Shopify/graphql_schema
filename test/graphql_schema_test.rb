@@ -2,7 +2,7 @@ require 'test_helper'
 
 class GraphQLSchemaTest < Minitest::Test
   def setup
-    @schema = GraphQLSchema.new(Support::Schema.introspection_result)
+    @schema = GraphQLSchema.new(Support::Schema::ExampleSchema.as_json)
   end
 
   def test_that_it_has_a_version_number
@@ -10,18 +10,18 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_application_types
-    expect = %w(QueryRoot Mutation Entry IntegerEntry StringEntry Time KeyType SetIntegerInput).sort
+    expect = %w(QueryRoot MutationRoot Entry IntegerEntry StringEntry Time Key SetIntegerInput).sort
     assert_equal expect, @schema.types.reject(&:builtin?).map(&:name)
   end
 
   def test_roots
     assert_equal 'QueryRoot', @schema.query_root_name
-    assert_equal 'Mutation', @schema.mutation_root_name
-    assert_equal ['Mutation', 'QueryRoot'], @schema.types.select { |type| @schema.root_name?(type.name) }.map(&:name)
+    assert_equal 'MutationRoot', @schema.mutation_root_name
+    assert_equal ['MutationRoot', 'QueryRoot'], @schema.types.select { |type| @schema.root_name?(type.name) }.map(&:name)
   end
 
   def test_no_mutation_root
-    schema = GraphQLSchema.new(Support::Schema.introspection_result(Support::Schema::NoMutationSchema))
+    schema = GraphQLSchema.new(Support::Schema::NoMutationSchema.as_json)
     assert_nil schema.mutation_root_name
   end
 
@@ -44,7 +44,7 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_nil_fields
-    assert_nil type('KeyType').fields
+    assert_nil type('Key').fields
   end
 
   def test_deprecated_fields
@@ -54,7 +54,7 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_deprecated_enum_values
-    deprecated = type('KeyType').enum_values(include_deprecated: true) - type('KeyType').enum_values
+    deprecated = type('Key').enum_values(include_deprecated: true) - type('Key').enum_values
     assert_equal %w(NOT_FOUND), deprecated.map(&:name)
     assert_equal "GraphQL null now used instead", deprecated.first.deprecation_reason
   end
@@ -120,8 +120,8 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_default_args
-    assert_equal "\"I am default\"", arg('Mutation', 'set_string_with_default', 'value').default_value
-    assert_nil arg('Mutation', 'set_string_with_default', 'key').default_value
+    assert_equal "\"I am default\"", arg('MutationRoot', 'setStringWithDefault', 'value').default_value
+    assert_nil arg('MutationRoot', 'setStringWithDefault', 'key').default_value
   end
 
   def test_possible_types
@@ -144,9 +144,9 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def test_fields_by_name
-    assert_equal get_string_field, type('QueryRoot').fields_by_name['get_string']
+    assert_equal get_string_field, type('QueryRoot').fields_by_name['getString']
     assert_equal get_field, type('QueryRoot').fields_by_name['get']
-    assert_nil type('QueryRoot').fields_by_name['does_not_exist']
+    assert_nil type('QueryRoot').fields_by_name['doesNotExist']
   end
 
   def test_type_by_name
@@ -157,9 +157,9 @@ class GraphQLSchemaTest < Minitest::Test
   def test_description
     assert_equal 'Time since epoch in seconds', type('Time').description
     assert_nil type('StringEntry').description
-    assert_nil type('KeyType').enum_values.first.description
+    assert_nil type('Key').enum_values.first.description
     assert_nil input_field('SetIntegerInput', 'negate').description
-    assert_equal 'Get an entry of any type with the given key', field('QueryRoot', 'get_entry').description
+    assert_equal 'Get an entry of any type with the given key', field('QueryRoot', 'getEntry').description
   end
 
   def test_directives
@@ -173,7 +173,9 @@ class GraphQLSchemaTest < Minitest::Test
     assert directive("skip").builtin?
     assert directive("include").builtin?
     assert directive("deprecated").builtin?
-    assert_equal 4, @schema.directives.length
+    assert directive("oneOf").builtin?
+    assert directive("specifiedBy").builtin?
+    assert_equal 6, @schema.directives.length
   end
 
   def test_to_h
@@ -192,7 +194,9 @@ class GraphQLSchemaTest < Minitest::Test
       'name' => 'negate',
       'description' => nil,
       'type' => {'kind' => 'SCALAR', 'name' => 'Boolean', 'ofType' => nil },
-      'defaultValue' => 'false'
+      'defaultValue' => 'false',
+      "isDeprecated" => false,
+      "deprecationReason" => nil
     }, input_field('SetIntegerInput', 'negate').to_h)
 
     assert_equal({
@@ -200,7 +204,7 @@ class GraphQLSchemaTest < Minitest::Test
       'description' => nil,
       'isDeprecated' => false,
       'deprecationReason' => nil
-    }, type('KeyType').enum_values.first.to_h)
+    }, type('Key').enum_values.first.to_h)
   end
 
   private
@@ -240,7 +244,7 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def get_string_field
-    field('QueryRoot', 'get_string')
+    field('QueryRoot', 'getString')
   end
 
   def keys_field
@@ -248,6 +252,6 @@ class GraphQLSchemaTest < Minitest::Test
   end
 
   def not_found_value
-    enum_value('KeyType', 'NOT_FOUND')
+    enum_value('Key', 'NOT_FOUND')
   end
 end

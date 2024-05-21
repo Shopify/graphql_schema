@@ -1,0 +1,25 @@
+PATH
+  remote: .
+  specs:
+    graphql_schema (0.1.8)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    base64 (0.2.0)
+    graphql (2.3.4)
+      base64
+    minitest (5.22.3)
+    rake (13.2.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  graphql (>= 2.0)
+  graphql_schema!
+  minitest (~> 5.0)
+  rake (~> 13.0)
+
+BUNDLED WITH
+   2.4.22
