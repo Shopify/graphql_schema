@@ -6,9 +6,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    base64 (0.2.0)
-    graphql (2.3.4)
+    base64 (0.3.0)
+    fiber-storage (1.0.0)
+    graphql (2.3.21)
       base64
+      fiber-storage
     minitest (5.22.3)
     rake (13.2.1)
 
