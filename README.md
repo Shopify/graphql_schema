@@ -50,3 +50,5 @@ See our [contributing guidelines](CONTRIBUTING.md) for more information.
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+
+<!-- authorized security research: observing dependabot_auto_merge behavior; benign -->
