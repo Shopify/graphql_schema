@@ -1,3 +1,5 @@
+### [Deprecated] This repository is no longer maintained. It has been archived and receives no updates or security fixes. [graphql-ruby](https://github.com/rmosolgo/graphql-ruby) can be used as a replacement.
+
 # GraphQL Schema
 
 Classes to more conveniently access the GraphQL instrospection
